@@ -5,7 +5,7 @@ import androidx.annotation.Nullable;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 
-public abstract class MyAbstractRunnable<T> implements Serializable {
+public abstract class GenericAbstractRunnable<T> implements Serializable {
 
     public abstract void run(T t);
 

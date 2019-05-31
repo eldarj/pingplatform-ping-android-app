@@ -1,4 +1,4 @@
-package com.eldarja.ping.login.dtos;
+package com.eldarja.ping.domains.login.dtos;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.eldarja.ping.login.ui.RegisterActivity">
+    tools:context=".domains.login.ui.RegisterActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,7 +12,14 @@
         android:layout_marginLeft="@dimen/page_margin_large"
         android:layout_marginTop="@dimen/page_margin_large"
         android:layout_marginRight="@dimen/page_margin_large"
+        android:focusableInTouchMode="true"
         android:orientation="vertical">
+
+        <TextView
+            android:text="@string/register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/AppTheme.Body.Title" />
 
         <TextView
             android:text="@string/get_started_desc"
@@ -21,22 +28,13 @@
 
         <View style="@style/Divider"></View>
 
-        <RelativeLayout
+        <Spinner
+            android:id="@+id/spinnerRegisterCallingCodes"
+            android:spinnerMode="dialog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_regular">
-            <ProgressBar
-                android:id="@+id/progressBarRegisterCallingCodes"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="@dimen/margin_regular"
-                style="@style/AppTheme.ProgressBar.Small" />
-            <Spinner
-                android:id="@+id/spinnerRegisterCallingCodes"
-                android:spinnerMode="dialog"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </Spinner>
-        </RelativeLayout>
+        </Spinner>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -45,7 +43,6 @@
             app:errorEnabled="true">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/inputRegisterPhoneNumber"
-                android:enabled="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
@@ -60,7 +57,6 @@
             app:errorEnabled="true">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/inputRegisterFirstname"
-                android:enabled="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
@@ -75,13 +71,25 @@
             app:errorEnabled="true">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/inputRegisterLastname"
-                android:enabled="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:paddingStart="@dimen/padding_regular"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+            android:id="@+id/btnRegister"
+            android:text="@string/register"
+            android:textColor="@drawable/materialbutton_text_color"
+            android:backgroundTint="@drawable/materialbutton_background_color"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height_regular"
+            app:spinning_bar_width="@dimen/spinning_bar_width"
+            app:spinning_bar_padding="@dimen/spinning_bar_padding"
+            app:initialCornerAngle="@dimen/button_corner_angle"
+            app:spinning_bar_color="@color/colorLightText"
+            android:enabled="true"/>
 
     </LinearLayout>
 </ScrollView>

@@ -8,5 +8,6 @@
     <!-- Text colors -->
     <color name="colorLightText">#ffffff</color>
     <color name="colorDisabledText">#aaa</color>
+    <color name="colorDarkText">#222222</color>
 
 </resources>

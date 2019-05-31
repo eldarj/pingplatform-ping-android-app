@@ -11,7 +11,27 @@
         <item name="materialButtonStyle">@style/AppTheme.MaterialButton</item>
     </style>
 
-    <!-- ELEMENTS -->
+    <!-- ### GENERAL ### -->
+    <!-- Containers -->
+    <style name="AppTheme.Root"></style>
+    <style name="AppTheme.Root.Linear">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginStart">@dimen/page_margin_large</item>
+        <item name="android:layout_marginTop">@dimen/page_margin_large</item>
+        <item name="android:layout_marginEnd">@dimen/page_margin_large</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:focusableInTouchMode">true</item>
+    </style>
+    <!-- Text -->
+    <style name="AppTheme.Body.Title" parent="@android:style/Widget.Material.TextView">
+        <item name="android:textSize">@dimen/text_large</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorDarkText</item>
+        <item name="android:layout_marginBottom">@dimen/margin_small</item>
+    </style>
+
+    <!-- ### ELEMENTS ### -->
     <!-- Divider -->
     <style name="Divider">
         <item name="android:layout_marginBottom">16dp</item>
@@ -26,6 +46,7 @@
         <item name="android:backgroundTint">@drawable/materialbutton_background_color</item>
         <item name="android:textColor">@drawable/materialbutton_text_color</item>
     </style>
+
     <!-- TextInputLayout -->
     <style name="AppTheme.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="hintTextAppearance">@style/AppTheme.TextInputLayout.HintText</item>
@@ -34,6 +55,7 @@
     <style name="AppTheme.TextInputLayout.HintText" parent="TextAppearance.MaterialComponents.Subtitle2">
         <item name="android:textColor">@color/colorAccent</item>
     </style>
+
     <!-- ProgressBar spinner -->
     <style name="AppTheme.ProgressBar">
         <item name="android:tint">@color/colorPrimary</item>
@@ -56,4 +78,5 @@
         <item name="android:minHeight">25dp</item>
         <item name="android:minWidth">25dp</item>
     </style>
+
 </resources>
