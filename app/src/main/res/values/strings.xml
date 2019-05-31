@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Ping</string>
+
+    <!-- Get started & Register pages -->
+    <string name="get_started_desc">You\'ll receive an activation code upon proceeding - make sure this number can receive SMS.</string>
+    <string name="phone_number">Phone number</string>
+    <string name="calling_code">Calling code</string>
+    <string name="get_started">Get started</string>
+
+    <string name="register">Register</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+
 </resources>

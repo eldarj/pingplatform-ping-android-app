@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="@dimen/page_margin_large"
+    android:layout_marginTop="@dimen/page_margin_large"
+    android:layout_marginRight="@dimen/page_margin_large"
+    android:orientation="vertical"
+    tools:context=".login.ui.LoginActivity">
+
+    <TextView
+        android:text="@string/get_started_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <View style="@style/Divider"></View>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_regular">
+        <ProgressBar
+            android:id="@+id/progressBarGetStartedCallingCodes"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="@dimen/margin_regular"
+            style="@style/AppTheme.ProgressBar.Small" />
+        <Spinner
+            android:id="@+id/spinnerGetStartedCallingCodes"
+            android:spinnerMode="dialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </Spinner>
+    </RelativeLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/phone_number"
+        app:errorEnabled="true">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputGetStartedPhoneNumber"
+            android:enabled="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:paddingStart="@dimen/padding_regular"
+            android:maxLines="1" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+        android:id="@+id/btnGetStarted"
+        android:text="@string/get_started"
+        android:textColor="@drawable/materialbutton_text_color"
+        android:backgroundTint="@drawable/materialbutton_background_color"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height_regular"
+        app:spinning_bar_width="@dimen/spinning_bar_width"
+        app:spinning_bar_padding="@dimen/spinning_bar_padding"
+        app:initialCornerAngle="@dimen/button_corner_angle"
+        app:spinning_bar_color="@color/colorLightText"
+        android:enabled="false"/>
+
+</LinearLayout>
