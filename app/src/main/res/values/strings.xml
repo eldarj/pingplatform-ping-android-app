@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">Ping</string>
 
+    <!-- GENERAL -->
+    <!-- Hub connection -->
+    <string name="couldnt_connect_to_hub">Can\'t reach the Ping services, please check your internet connection.</string>
+    <string name="retry">Retry</string>
+
     <!-- Get started & Register pages -->
     <string name="get_started_desc">You\'ll receive an activation code upon proceeding - make sure this number can receive SMS.</string>
     <string name="phone_number">Phone number</string>

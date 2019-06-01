@@ -13,6 +13,7 @@ import com.eldarja.ping.domains.login.dtos.CallingCodeDto;
 import com.eldarja.ping.helpers.GenericAbstractRunnable;
 import com.eldarja.ping.helpers.UiUtils;
 import com.eldarja.ping.helpers.signalr.AuthHubClient;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.microsoft.signalr.HubConnection;
 
@@ -35,7 +36,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        authHubClient = new AuthHubClient(null, this.hubMessageHandlers);
+        authHubClient = new AuthHubClient(null, this.onHubCouldntConnect, this.hubMessageHandlers);
 
         spinnerCallingCodes = findViewById(R.id.spinnerRegisterCallingCodes);
         inputFirstname = findViewById(R.id.inputRegisterFirstname);
@@ -99,6 +100,14 @@ public class RegisterActivity extends AppCompatActivity {
             exposedHubConnection.on("RegistrationFailedrndGenCode", (String reasonMsg)-> {
                 runOnUiThread(() -> _onRegistrationFailed(reasonMsg));
             }, String.class);
+        }
+    };
+    private GenericAbstractRunnable<HubConnection> onHubCouldntConnect = new GenericAbstractRunnable<HubConnection>() {
+        @Override
+        public void run(HubConnection exposedHubConnection) {
+            Snackbar.make(findViewById(android.R.id.content),
+                    getString(R.string.couldnt_connect_to_hub),
+                    Snackbar.LENGTH_INDEFINITE).show();
         }
     };
 }

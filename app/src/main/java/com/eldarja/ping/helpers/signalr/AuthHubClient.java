@@ -8,7 +8,8 @@ public class AuthHubClient extends BaseHubClient {
     private final static String HUB_GATEWAY_NAME = "authhub";
 
     public AuthHubClient(GenericAbstractRunnable<HubConnection> onConnected,
+                         GenericAbstractRunnable<HubConnection> onCouldntConnect,
                          GenericAbstractRunnable<HubConnection> hubMessageHandlers) {
-        super(HUB_GATEWAY_NAME, onConnected, hubMessageHandlers);
+        super(HUB_GATEWAY_NAME, onConnected, onCouldntConnect, hubMessageHandlers);
     }
 }

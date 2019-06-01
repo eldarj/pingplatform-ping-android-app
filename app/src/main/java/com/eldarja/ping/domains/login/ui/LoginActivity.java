@@ -2,6 +2,7 @@ package com.eldarja.ping.domains.login.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -20,6 +21,7 @@ import com.eldarja.ping.helpers.WeakRefApp;
 import com.eldarja.ping.helpers.signalr.AuthHubClient;
 import com.eldarja.ping.domains.login.dtos.AuthRequestDto;
 import com.eldarja.ping.domains.login.dtos.CallingCodeDto;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.microsoft.signalr.HubConnection;
 
@@ -39,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        authHubClient = new AuthHubClient(this.onHubConnected, this.hubMessageHandlers);
+        initHubConnection();
 
         inputPhoneNumber = findViewById(R.id.inputGetStartedPhoneNumber);
         inputPhoneNumber.addTextChangedListener(_inputPhoneChangeHandler());
@@ -107,9 +109,31 @@ public class LoginActivity extends AppCompatActivity {
         btnGetStarted.revertAnimation(() -> null);
     }
 
+    private void initHubConnection() {
+        authHubClient = new AuthHubClient(this.onHubConnected, this.onHubCouldntConnect, this.hubMessageHandlers);
+    }
+
+    private GenericAbstractRunnable<HubConnection> onHubCouldntConnect = new GenericAbstractRunnable<HubConnection>() {
+        @Override
+        public void run(HubConnection exposedHubConnection) {
+            progressBarCallingCodes.setVisibility(View.INVISIBLE);
+            Snackbar.make(findViewById(android.R.id.content),
+                    getString(R.string.couldnt_connect_to_hub),
+                    Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.retry, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            progressBarCallingCodes.setVisibility(View.VISIBLE);
+                            new Handler().postDelayed(LoginActivity.this::initHubConnection, 500);
+                        }
+                    })
+                    .show();
+        }
+    };
     private GenericAbstractRunnable<HubConnection> onHubConnected = new GenericAbstractRunnable<HubConnection>() {
         @Override
         public void run(HubConnection exposedHubConnection) {
+            Log.e("Tagx", "onHubConnected");
             exposedHubConnection.send("RequestCallingCodes", "rndGenCode");
         }
     };
