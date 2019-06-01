@@ -59,7 +59,7 @@
                 android:id="@+id/inputRegisterFirstname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
+                android:inputType="textCapWords"
                 android:paddingStart="@dimen/padding_regular"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -73,7 +73,7 @@
                 android:id="@+id/inputRegisterLastname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
+                android:inputType="textCapWords"
                 android:paddingStart="@dimen/padding_regular"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>

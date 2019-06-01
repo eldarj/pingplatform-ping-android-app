@@ -86,8 +86,8 @@ public class LoginActivity extends AppCompatActivity {
                 spinnerCallingCodes);
     }
 
-    private void _onAuthenticationSuccess(AuthRequestDto msgJson) {
-        Log.e("Tagx", "Resposne: " + msgJson);
+    private void _onAuthenticationSuccess(AuthRequestDto dto) {
+        Log.e("Tagx", "Resposne: " + dto);
 //        MySession.setKorisnik(korisnik);
         startActivity(new Intent(this, ChatActivity.class));
         finish();
@@ -97,7 +97,8 @@ public class LoginActivity extends AppCompatActivity {
         UiUtils.dismissKeyboard(this);
         Intent registerActivityIntent = new Intent(WeakRefApp.getContext(), RegisterActivity.class);
         Bundle args = new Bundle();
-        args.putSerializable(RegisterActivity.CALLING_CODES_BUNDLE_KEY, callingCodeStrings);
+        args.putStringArray(RegisterActivity.CALLING_CODES_BUNDLE_KEY, callingCodeStrings);
+        args.putString(RegisterActivity.REGISTRATION_PHONE_NUMBER_BUNDLE_KEY, inputPhoneNumber.getText().toString());
         registerActivityIntent.putExtras(args);
 
         startActivity(registerActivityIntent);
@@ -117,12 +118,12 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public void run(HubConnection exposedHubConnection)
         {
-            exposedHubConnection.on("ResponseCallingCodesrndGenCode", (CallingCodeDto[] msgJson) -> {
-                runOnUiThread(() -> _onCallingCodesReceived(msgJson));
+            exposedHubConnection.on("ResponseCallingCodesrndGenCode", (CallingCodeDto[] response) -> {
+                runOnUiThread(() -> _onCallingCodesReceived(response));
             }, CallingCodeDto[].class);
 
-            exposedHubConnection.on("AuthenticationDonerndGenCode", (AuthRequestDto msgJson)-> {
-                runOnUiThread(() -> _onAuthenticationSuccess(msgJson));
+            exposedHubConnection.on("AuthenticationDonerndGenCode", (AuthRequestDto responseDto)-> {
+                runOnUiThread(() -> _onAuthenticationSuccess(responseDto));
             }, AuthRequestDto.class);
 
             exposedHubConnection.on("AuthenticationFailedrndGenCode", (String reasonMsg)-> {

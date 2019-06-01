@@ -18,6 +18,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".domains.login.ui.LoginActivity"></activity>
         <activity android:name=".domains.login.ui.RegisterActivity"></activity>
+        <activity android:name=".domains.chat.ui.ChatActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
