@@ -5,18 +5,22 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 public class CallingCodeDto implements Serializable {
-    @SerializedName(value = "prefixCode")
-    public String PrefixCode;
+    @SerializedName(value = "callingCountryCode")
+    public String callingCountryCode;
 
     @SerializedName(value = "countryName")
-    public String CountryName;
+    public String countryName;
 
     @SerializedName(value = "isoCode")
-    public String IsoCode;
+    public String isoCode;
+
+    public String getCallingCountryCode() {
+        return callingCountryCode;
+    }
 
     @Override
     public String toString() {
-        return "+" + PrefixCode + " " + CountryName + " (" + IsoCode + ")";
+        return "+" + callingCountryCode + " " + countryName + " (" + isoCode + ")";
     }
 
     public static String[] toString(CallingCodeDto[] dtoCallingCodes) {

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -15,9 +14,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.eldarja.ping.R;
 
 import com.eldarja.ping.domains.chat.ui.ChatActivity;
+import com.eldarja.ping.domains.login.dtos.AccountDto;
 import com.eldarja.ping.helpers.GenericAbstractRunnable;
 import com.eldarja.ping.helpers.UiUtils;
 import com.eldarja.ping.helpers.WeakRefApp;
+import com.eldarja.ping.helpers.session.SharedPrefSession;
 import com.eldarja.ping.helpers.signalr.AuthHubClient;
 import com.eldarja.ping.domains.login.dtos.AuthRequestDto;
 import com.eldarja.ping.domains.login.dtos.CallingCodeDto;
@@ -34,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
     private CircularProgressButton btnGetStarted;
 
     private AuthHubClient authHubClient;
-    private String[] callingCodeStrings;
+    private CallingCodeDto[] callingCodes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,18 +80,18 @@ public class LoginActivity extends AppCompatActivity {
         };
     }
 
-    private void _onCallingCodesReceived(CallingCodeDto[] callingCodeDtoList) {
+    private void _onCallingCountryCodesReceived(CallingCodeDto[] callingCodeDtoList) {
         inputPhoneNumber.setEnabled(true);
         progressBarCallingCodes.setVisibility(View.INVISIBLE);
-        callingCodeStrings = CallingCodeDto.toString(callingCodeDtoList);
+        callingCodes = callingCodeDtoList;
+
         UiUtils.fillSpinner(this,
-                callingCodeStrings,
+                CallingCodeDto.toString(callingCodeDtoList),
                 spinnerCallingCodes);
     }
 
-    private void _onAuthenticationSuccess(AuthRequestDto dto) {
-        Log.e("Tagx", "Resposne: " + dto);
-//        MySession.setKorisnik(korisnik);
+    private void _onAuthenticationSuccess(AccountDto dto) {
+        SharedPrefSession.setUser(dto);
         startActivity(new Intent(this, ChatActivity.class));
         finish();
     }
@@ -99,42 +100,38 @@ public class LoginActivity extends AppCompatActivity {
         UiUtils.dismissKeyboard(this);
         Intent registerActivityIntent = new Intent(WeakRefApp.getContext(), RegisterActivity.class);
         Bundle args = new Bundle();
-        args.putStringArray(RegisterActivity.CALLING_CODES_BUNDLE_KEY, callingCodeStrings);
+        args.putSerializable(RegisterActivity.CALLING_CODES_BUNDLE_KEY, callingCodes);
         args.putString(RegisterActivity.REGISTRATION_PHONE_NUMBER_BUNDLE_KEY, inputPhoneNumber.getText().toString());
         registerActivityIntent.putExtras(args);
 
         startActivity(registerActivityIntent);
-
-        inputPhoneNumber.setEnabled(true);
-        btnGetStarted.revertAnimation(() -> null);
+        finish();
     }
 
     private void initHubConnection() {
-        authHubClient = new AuthHubClient(this.onHubConnected, this.onHubCouldntConnect, this.hubMessageHandlers);
+        authHubClient = new AuthHubClient(onHubConnected, onHubCouldntConnect, hubMessageHandlers);
     }
+
+    private GenericAbstractRunnable<HubConnection> onHubConnected = new GenericAbstractRunnable<HubConnection>() {
+        @Override
+        public void run(HubConnection exposedHubConnection) {
+            exposedHubConnection.send("RequestCallingCodes", "rndGenCode");
+        }
+    };
 
     private GenericAbstractRunnable<HubConnection> onHubCouldntConnect = new GenericAbstractRunnable<HubConnection>() {
         @Override
         public void run(HubConnection exposedHubConnection) {
             progressBarCallingCodes.setVisibility(View.INVISIBLE);
-            Snackbar.make(findViewById(android.R.id.content),
-                    getString(R.string.couldnt_connect_to_hub),
-                    Snackbar.LENGTH_INDEFINITE)
-                    .setAction(R.string.retry, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            progressBarCallingCodes.setVisibility(View.VISIBLE);
-                            new Handler().postDelayed(LoginActivity.this::initHubConnection, 500);
-                        }
-                    })
-                    .show();
-        }
-    };
-    private GenericAbstractRunnable<HubConnection> onHubConnected = new GenericAbstractRunnable<HubConnection>() {
-        @Override
-        public void run(HubConnection exposedHubConnection) {
-            Log.e("Tagx", "onHubConnected");
-            exposedHubConnection.send("RequestCallingCodes", "rndGenCode");
+            Snackbar.make(findViewById(android.R.id.content), getString(R.string.couldnt_connect_to_hub), Snackbar.LENGTH_INDEFINITE)
+                .setAction(R.string.retry, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        progressBarCallingCodes.setVisibility(View.VISIBLE);
+                        new Handler().postDelayed(LoginActivity.this::initHubConnection, 500);
+                    }
+                })
+                .show();
         }
     };
 
@@ -143,12 +140,12 @@ public class LoginActivity extends AppCompatActivity {
         public void run(HubConnection exposedHubConnection)
         {
             exposedHubConnection.on("ResponseCallingCodesrndGenCode", (CallingCodeDto[] response) -> {
-                runOnUiThread(() -> _onCallingCodesReceived(response));
+                runOnUiThread(() -> _onCallingCountryCodesReceived(response));
             }, CallingCodeDto[].class);
 
-            exposedHubConnection.on("AuthenticationDonerndGenCode", (AuthRequestDto responseDto)-> {
+            exposedHubConnection.on("AuthenticationDonerndGenCode", (AccountDto responseDto)-> {
                 runOnUiThread(() -> _onAuthenticationSuccess(responseDto));
-            }, AuthRequestDto.class);
+            }, AccountDto.class);
 
             exposedHubConnection.on("AuthenticationFailedrndGenCode", (String reasonMsg)-> {
                 runOnUiThread(() -> _onAuthenticationFailed());

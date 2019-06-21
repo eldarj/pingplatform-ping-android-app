@@ -3,29 +3,56 @@ package com.eldarja.ping.domains.login.dtos;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class AuthRequestDto implements Serializable {
-    //@SerializedName(value = "PhoneNumber", alternate = {"phoneNumber", "phonenumber"})
+    //@SerializedName(value = "phoneNumber", alternate = {"phoneNumber", "phonenumber"})
     @SerializedName(value = "phoneNumber")
-    private String PhoneNumber;
+    private String phoneNumber;
 
     @SerializedName(value = "firstname")
-    private String Firstname;
+    private String firstname;
 
     @SerializedName(value = "lastname")
-    private String Lastname;
+    private String lastname;
 
-    @SerializedName(value = "callingCode")
-    private int CallingCode;
+    @SerializedName(value = "callingCountryCode")
+    private int callingCountryCode;
 
-    public AuthRequestDto(String phoneNumber) {
-        PhoneNumber = phoneNumber;
+    @SerializedName(value = "contacts")
+    private List<ContactDto> Contacts;
+
+    public AuthRequestDto() {
     }
 
-    public AuthRequestDto(String phoneNumber, int callingCode, String firstname, String lastname) {
-        this.PhoneNumber = phoneNumber;
-        this.CallingCode = callingCode;
-        this.Firstname = firstname;
-        this.Lastname = lastname;
+    public AuthRequestDto(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public AuthRequestDto(String phoneNumber, int callingCountryCode, String firstname, String lastname) {
+        this.phoneNumber = phoneNumber;
+        this.callingCountryCode = callingCountryCode;
+        this.firstname = firstname;
+        this.lastname = lastname;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public void setCallingCountryCode(int callingCountryCode) {
+        this.callingCountryCode = callingCountryCode;
+    }
+
+    public void setContacts(List<ContactDto> contacts) {
+        Contacts = contacts;
     }
 }
