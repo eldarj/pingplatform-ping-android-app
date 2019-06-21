@@ -12,9 +12,17 @@
     </style>
 
     <!-- ### GENERAL ### -->
+    <!-- Root app elements -->
+    <style name="AppTheme.AppBarTitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:text">Ping</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
     <!-- Containers -->
     <style name="AppTheme.Root"></style>
-    <style name="AppTheme.Root.Linear">
+    <style name="AppTheme.Root.LinearForm">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_marginStart">@dimen/page_margin_large</item>

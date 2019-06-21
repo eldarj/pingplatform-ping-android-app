@@ -1,95 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/AppTheme.Root.LinearForm"
+    android:id="@+id/content"
     tools:context=".domains.login.ui.RegisterActivity">
 
-    <LinearLayout
+    <TextView
+        android:text="@string/register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/page_margin_large"
-        android:layout_marginTop="@dimen/page_margin_large"
-        android:layout_marginRight="@dimen/page_margin_large"
-        android:focusableInTouchMode="true"
-        android:orientation="vertical">
+        style="@style/AppTheme.Body.Title" />
 
-        <TextView
-            android:text="@string/register"
+    <TextView
+        android:text="@string/get_started_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <View style="@style/Divider"></View>
+
+    <Spinner
+        android:id="@+id/spinnerRegisterCallingCodes"
+        android:spinnerMode="dialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_regular">
+    </Spinner>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/phone_number"
+        app:errorEnabled="true">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputRegisterPhoneNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/AppTheme.Body.Title" />
+            android:inputType="number"
+            android:paddingStart="@dimen/padding_regular"
+            android:maxLines="1" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:text="@string/get_started_desc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <View style="@style/Divider"></View>
-
-        <Spinner
-            android:id="@+id/spinnerRegisterCallingCodes"
-            android:spinnerMode="dialog"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_regular">
-        </Spinner>
-
-        <com.google.android.material.textfield.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/first_name"
+        app:errorEnabled="true">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputRegisterFirstname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/phone_number"
-            app:errorEnabled="true">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/inputRegisterPhoneNumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:paddingStart="@dimen/padding_regular"
-                android:maxLines="1" />
-        </com.google.android.material.textfield.TextInputLayout>
+            android:inputType="textCapWords"
+            android:paddingStart="@dimen/padding_regular"
+            android:maxLines="1" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/last_name"
+        app:errorEnabled="true">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputRegisterLastname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/first_name"
-            app:errorEnabled="true">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/inputRegisterFirstname"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textCapWords"
-                android:paddingStart="@dimen/padding_regular"
-                android:maxLines="1" />
-        </com.google.android.material.textfield.TextInputLayout>
+            android:inputType="textCapWords"
+            android:paddingStart="@dimen/padding_regular"
+            android:maxLines="1" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/last_name"
-            app:errorEnabled="true">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/inputRegisterLastname"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textCapWords"
-                android:paddingStart="@dimen/padding_regular"
-                android:maxLines="1" />
-        </com.google.android.material.textfield.TextInputLayout>
+    <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+        android:id="@+id/btnRegister"
+        android:text="@string/register"
+        android:textColor="@drawable/materialbutton_text_color"
+        android:backgroundTint="@drawable/materialbutton_background_color"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height_regular"
+        app:spinning_bar_width="@dimen/spinning_bar_width"
+        app:spinning_bar_padding="@dimen/spinning_bar_padding"
+        app:initialCornerAngle="@dimen/button_corner_angle"
+        app:spinning_bar_color="@color/colorLightText"
+        android:enabled="true"/>
 
-        <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
-            android:id="@+id/btnRegister"
-            android:text="@string/register"
-            android:textColor="@drawable/materialbutton_text_color"
-            android:backgroundTint="@drawable/materialbutton_background_color"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height_regular"
-            app:spinning_bar_width="@dimen/spinning_bar_width"
-            app:spinning_bar_padding="@dimen/spinning_bar_padding"
-            app:initialCornerAngle="@dimen/button_corner_angle"
-            app:spinning_bar_color="@color/colorLightText"
-            android:enabled="true"/>
-
-    </LinearLayout>
-</ScrollView>
+</LinearLayout>
