@@ -142,7 +142,7 @@ public class RegisterActivity extends AppCompatActivity {
             registrationRequestDto.setLastname(inputLastname.getText().toString());
 
             Log.e("Tagx", "Request registration for country calling code: " + selectedCallingCode); //TODO: Remove
-            exposedHubConnection.send("RequestRegistration", "rndGenCode", registrationRequestDto);
+            exposedHubConnection.send("RequestRegistration", registrationRequestDto);
         }
     };
 

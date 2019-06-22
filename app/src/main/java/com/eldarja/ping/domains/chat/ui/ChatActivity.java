@@ -39,8 +39,8 @@ public class ChatActivity extends AppCompatActivity {
     private ProgressBar progressBarContacts;
     private TextView textContactsNoData;
 
-    private List<ContactDto> contacts;
-    private List<ContactDto> initialContacts;
+    private ContactDto[] contacts;
+    private ContactDto[] initialContacts;
 
     private RecyclerView recyclerViewContacts;
     private RecyclerView.Adapter contactsAdapter;
@@ -77,7 +77,7 @@ public class ChatActivity extends AppCompatActivity {
     private GenericAbstractRunnable<HubConnection> onHubConnected = new GenericAbstractRunnable<HubConnection>() {
         @Override
         public void run(HubConnection exposedHubConnection) {
-        exposedHubConnection.send("RequestContacts", "rndGenCode", SharedPrefSession.getUser().getPhoneNumber());
+        exposedHubConnection.send("RequestContacts");
         }
     };
 
@@ -100,9 +100,9 @@ public class ChatActivity extends AppCompatActivity {
     private GenericAbstractRunnable<HubConnection> hubMessageHandlers = new GenericAbstractRunnable<HubConnection>() {
         @Override
         public void run(HubConnection exposedHubConnection) {
-            exposedHubConnection.on("RequestContactsSuccessrndGenCode", (List<ContactDto> responseDto)-> {
+            exposedHubConnection.on("RequestContactsSuccessrndGenCode", (ContactDto[] responseDto)-> {
                 runOnUiThread(() -> _onAuthenticationSuccess(responseDto));
-            }, List<ContactDto>.class);
+            }, ContactDto[].class);
 
             exposedHubConnection.on("RequestContactsFailrndGenCode", (String reasonMsg)-> {
                 runOnUiThread(() -> _onAuthenticationFailed());
@@ -110,7 +110,7 @@ public class ChatActivity extends AppCompatActivity {
         }
     };
 
-    private void _onAuthenticationSuccess(List<ContactDto> contactsResponse) {
+    private void _onAuthenticationSuccess(ContactDto[] contactsResponse) {
         SharedPrefSession.setContacts(contacts);
         initialContacts = contacts = contactsResponse;
         recyclerViewContacts.getAdapter().notifyDataSetChanged();

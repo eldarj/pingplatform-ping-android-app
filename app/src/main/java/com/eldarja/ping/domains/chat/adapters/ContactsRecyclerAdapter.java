@@ -14,9 +14,9 @@ import com.eldarja.ping.domains.login.dtos.ContactDto;
 import java.util.List;
 
 public class ContactsRecyclerAdapter extends RecyclerView.Adapter<ContactsRecyclerAdapter.ViewHolder> {
-    private List<ContactDto> dataset;
+    private ContactDto[] dataset;
 
-    public ContactsRecyclerAdapter(List<ContactDto> dataset) {
+    public ContactsRecyclerAdapter(ContactDto[] dataset) {
         this.dataset = dataset;
     }
 
@@ -31,13 +31,13 @@ public class ContactsRecyclerAdapter extends RecyclerView.Adapter<ContactsRecycl
 
     @Override
     public void onBindViewHolder(@NonNull ContactsRecyclerAdapter.ViewHolder holder, int position) {
-        holder.textContactName.setText(dataset.get(position).getContactName());
-        holder.textContactPhoneNumber.setText(dataset.get(position).getContactPhoneNumber());
+        holder.textContactName.setText(dataset[position].getContactName());
+        holder.textContactPhoneNumber.setText(dataset[position].getContactPhoneNumber());
     }
 
     @Override
     public int getItemCount() {
-        return dataset.size();
+        return dataset.length;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

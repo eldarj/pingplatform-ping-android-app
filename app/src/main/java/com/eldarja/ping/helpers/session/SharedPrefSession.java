@@ -43,11 +43,12 @@ public class SharedPrefSession {
         editor.putString(PREF_LOGGED_USER, jsonSerializedUser);
         editor.apply();
 
-        setContacts(userAccount.getContacts());
+        List<ContactDto> contacts = userAccount.getContacts();
+        setContacts(contacts.toArray(new ContactDto[0]));
     }
 
-    public static List<ContactDto> getContacts() {
-        List<ContactDto> contacts;
+    public static ContactDto[] getContacts() {
+        ContactDto[] contacts;
 
         SharedPreferences prefs = WeakRefApp.getContext().getSharedPreferences(SHARED_PREFS_STORAGE_NAME, Context.MODE_PRIVATE);
 
@@ -63,7 +64,7 @@ public class SharedPrefSession {
         return contacts;
     }
 
-    public static void setContacts(List<ContactDto> contacts) {
+    public static void setContacts(ContactDto[] contacts) {
         String jsonSerializedContacts = contacts == null ? "" : GsonHelper.build().toJson(contacts);
 
         SharedPreferences prefs = WeakRefApp.getContext().getSharedPreferences(SHARED_PREFS_STORAGE_NAME, Context.MODE_PRIVATE);

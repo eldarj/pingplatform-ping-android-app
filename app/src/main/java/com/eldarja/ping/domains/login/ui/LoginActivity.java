@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.eldarja.ping.R;
 
+import com.eldarja.ping.commons.dtos.ResponseDto;
 import com.eldarja.ping.domains.chat.ui.ChatActivity;
 import com.eldarja.ping.domains.login.dtos.AccountDto;
 import com.eldarja.ping.helpers.GenericAbstractRunnable;
@@ -22,6 +23,7 @@ import com.eldarja.ping.helpers.session.SharedPrefSession;
 import com.eldarja.ping.helpers.signalr.AuthHubClient;
 import com.eldarja.ping.domains.login.dtos.AuthRequestDto;
 import com.eldarja.ping.domains.login.dtos.CallingCodeDto;
+import com.google.android.gms.common.api.Response;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.microsoft.signalr.HubConnection;
@@ -59,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
         btnGetStarted.startAnimation(() -> null);
         AuthRequestDto request = new AuthRequestDto(inputPhoneNumber.getText().toString());
         try {
-            authHubClient.send("RequestAuthentication", "rndGenCode", request);
+            authHubClient.send("RequestAuthentication", request);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -96,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
-    private void _onAuthenticationFailed() {
+    private void _onAuthenticationFailed(ResponseDto responseDto) {
         UiUtils.dismissKeyboard(this);
         Intent registerActivityIntent = new Intent(WeakRefApp.getContext(), RegisterActivity.class);
         Bundle args = new Bundle();
@@ -147,9 +149,9 @@ public class LoginActivity extends AppCompatActivity {
                 runOnUiThread(() -> _onAuthenticationSuccess(responseDto));
             }, AccountDto.class);
 
-            exposedHubConnection.on("AuthenticationFailedrndGenCode", (String reasonMsg)-> {
-                runOnUiThread(() -> _onAuthenticationFailed());
-            }, String.class);
+            exposedHubConnection.on("AuthenticationFailed", (ResponseDto responseDto)-> {
+                runOnUiThread(() -> _onAuthenticationFailed(responseDto));
+            }, ResponseDto.class);
         }
     };
 }
