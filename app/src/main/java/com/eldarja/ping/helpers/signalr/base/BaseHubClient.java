@@ -40,11 +40,6 @@ public abstract class BaseHubClient extends AsyncTask<Void, Void, GenericAbstrac
         this.execute();
     }
 
-    // Send method exposed
-    public void send(String method, Object... args) {
-        this.hubConnection.send(method, args);
-    }
-
     @Override
     protected GenericAbstractRunnable<HubConnection> doInBackground(Void... params) {
         AtomicReference<GenericAbstractRunnable<HubConnection>> runnableRef = new AtomicReference<>(null);
@@ -55,7 +50,7 @@ public abstract class BaseHubClient extends AsyncTask<Void, Void, GenericAbstrac
                 }
             }).blockingAwait();
         } catch (Exception e) {
-            // connection was refused or interrupted while connecting
+            Log.w("Tagx", "SignalR connection refused or interrupted while connecting.");
             runnableRef.set(this.onCouldntConnect);
         }
 
@@ -65,5 +60,10 @@ public abstract class BaseHubClient extends AsyncTask<Void, Void, GenericAbstrac
     @Override
     protected void onPostExecute(GenericAbstractRunnable<HubConnection> runnable) {
         runnable.run(this.hubConnection);
+    }
+
+    // Send method exposed
+    public void send(String method, Object... args) {
+        this.hubConnection.send(method, args);
     }
 }
