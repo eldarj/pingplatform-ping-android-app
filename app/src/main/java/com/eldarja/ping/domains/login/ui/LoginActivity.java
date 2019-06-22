@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -27,6 +28,8 @@ import com.google.android.gms.common.api.Response;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.microsoft.signalr.HubConnection;
+
+import java.util.logging.Logger;
 
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
 
@@ -61,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
         btnGetStarted.startAnimation(() -> null);
         AuthRequestDto request = new AuthRequestDto(inputPhoneNumber.getText().toString());
         try {
-            authHubClient.send("RequestAuthentication", request);
+            authHubClient.send("RequestAuthentication", "rndGenCode", request);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -99,6 +102,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void _onAuthenticationFailed(ResponseDto responseDto) {
+        Log.i("TAGX", "MESSAGE: " + responseDto.getMessage());
         UiUtils.dismissKeyboard(this);
         Intent registerActivityIntent = new Intent(WeakRefApp.getContext(), RegisterActivity.class);
         Bundle args = new Bundle();
@@ -149,7 +153,7 @@ public class LoginActivity extends AppCompatActivity {
                 runOnUiThread(() -> _onAuthenticationSuccess(responseDto));
             }, AccountDto.class);
 
-            exposedHubConnection.on("AuthenticationFailed", (ResponseDto responseDto)-> {
+            exposedHubConnection.on("AuthenticationFailedrndGenCode", (ResponseDto responseDto)-> {
                 runOnUiThread(() -> _onAuthenticationFailed(responseDto));
             }, ResponseDto.class);
         }
